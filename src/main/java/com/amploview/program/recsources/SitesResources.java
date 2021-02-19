@@ -13,7 +13,6 @@ public class SitesResources {
 
 	@GetMapping
 	public ResponseEntity<Sites> findAll() {
-		Sites site = new Sites(1, "RioKasa");
-		return ResponseEntity.ok().body(site);
+		return ResponseEntity.ok().body(null);
 	}
 }
