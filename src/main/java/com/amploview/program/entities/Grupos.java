@@ -1,39 +1,37 @@
 package com.amploview.program.entities;
 
 import java.io.Serializable;
-import java.util.ArrayList;
-import java.util.List;
 
 import javax.persistence.Entity;
 import javax.persistence.GeneratedValue;
 import javax.persistence.GenerationType;
 import javax.persistence.Id;
-import javax.persistence.OneToMany;
-
-import com.fasterxml.jackson.annotation.JsonIgnore;
+import javax.persistence.JoinColumn;
+import javax.persistence.ManyToOne;
 
 @Entity
-public class Sites implements Serializable {
-	
-	private static final long serialVersionUID = 1L;
+public class Grupos implements Serializable {
 
+	private static final long serialVersionUID = 1L;
+	
 	@Id
 	@GeneratedValue(strategy = GenerationType.IDENTITY)
 	private Integer id;
 	private String Descricao;
 	
-	@JsonIgnore
-	@OneToMany(mappedBy = "id")
-	private List<Sites> sites = new ArrayList<>();
-	
-	public Sites() {
+	@ManyToOne
+	@JoinColumn(name = "sites_id")
+	private Sites site;
+
+	public Grupos() {
 		//super();
 	}
 
-	public Sites(Integer id, String descricao) {
+	public Grupos(Integer id, String descricao, Sites site) {
 		//super();
 		this.id = id;
 		Descricao = descricao;
+		this.site = site;
 	}
 
 	public Integer getId() {
@@ -52,8 +50,12 @@ public class Sites implements Serializable {
 		Descricao = descricao;
 	}
 
-	public List<Sites> getSites() {
-		return sites;
+	public Sites getSite() {
+		return site;
+	}
+
+	public void setSite(Sites site) {
+		this.site = site;
 	}
 
 
@@ -62,6 +64,7 @@ public class Sites implements Serializable {
 		final int prime = 31;
 		int result = 1;
 		result = prime * result + ((id == null) ? 0 : id.hashCode());
+		result = prime * result + ((site == null) ? 0 : site.hashCode());
 		return result;
 	}
 
@@ -73,18 +76,23 @@ public class Sites implements Serializable {
 			return false;
 		if (getClass() != obj.getClass())
 			return false;
-		Sites other = (Sites) obj;
+		Grupos other = (Grupos) obj;
 		if (id == null) {
 			if (other.id != null)
 				return false;
 		} else if (!id.equals(other.id))
+			return false;
+		if (site == null) {
+			if (other.site != null)
+				return false;
+		} else if (!site.equals(other.site))
 			return false;
 		return true;
 	}
 
 	@Override
 	public String toString() {
-		return "Sites [id=" + id + ", Descricao=" + Descricao + "]";
+		return "Grupos [id=" + id + ", Descricao=" + Descricao + ", site=" + site + "]";
 	}
-
+	
 }
