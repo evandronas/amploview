@@ -2,6 +2,7 @@ package com.amploview.program.recsources;
 
 import java.util.List;
 
+import javax.management.Query;
 import javax.persistence.EntityManager;
 import javax.persistence.EntityManagerFactory;
 import javax.persistence.Persistence;
@@ -14,34 +15,33 @@ import org.springframework.web.bind.annotation.PathVariable;
 import org.springframework.web.bind.annotation.RequestMapping;
 import org.springframework.web.bind.annotation.RestController;
 
-import com.amploview.program.entities.Grupos;
-import com.amploview.program.entities.Sites;
-import com.amploview.program.services.GruposService;
+import com.amploview.program.entities.Colecoes;
+import com.amploview.program.services.ColecoesService;
 
 @RestController
-@RequestMapping(value="/grupos")
-public class GruposResources {
-	
+@RequestMapping(value = "/colecoes")
+public class ColecoesResources {
+
 	@Autowired
-	private GruposService service;
+	private ColecoesService service;
 
 	@GetMapping
-	public ResponseEntity<List<Grupos>> findAll() {
-		List <Grupos> list = service.findAll();
+	public ResponseEntity<List<Colecoes>> findAll() {
+		List<Colecoes> list = service.findAll();
 		return ResponseEntity.ok().body(list);
 	}
-	
+
 	@GetMapping(value = "/{id}")
-	public ResponseEntity<Grupos> findById(@PathVariable Integer id) {
-		Grupos obj = service.findById(id);
+	public ResponseEntity<Colecoes> findById(@PathVariable Integer id) {
+		Colecoes obj = service.findById(id);
 		return ResponseEntity.ok().body(obj);
 	}
 
 	@GetMapping(value = "/descricao/{descricao}")
-	public ResponseEntity<Grupos> findByDescricao(@PathVariable String descricao) {
+	public ResponseEntity<Colecoes> findByDescricao(@PathVariable String descricao) {
 		EntityManagerFactory emf = Persistence.createEntityManagerFactory("h2");
 		EntityManager em = emf.createEntityManager();
-		TypedQuery<Integer> query = em.createQuery("Select id from Grupos Where descricao = '" + descricao + "'" , Integer.class);
+		TypedQuery<Integer> query = em.createQuery("Select id from Colecoes Where descricao = '" + descricao + "'" , Integer.class);
 		@SuppressWarnings("unchecked")
 		List<Integer> list=((javax.persistence.Query) query).getResultList();
 		em.close();
@@ -52,5 +52,4 @@ public class GruposResources {
 			return null;
 		}
 	}
-
 }

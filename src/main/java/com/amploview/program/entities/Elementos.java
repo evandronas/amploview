@@ -13,8 +13,8 @@ import javax.persistence.Table;
 import javax.persistence.UniqueConstraint;
 
 @Entity
-@Table(name = "Grupos",uniqueConstraints= @UniqueConstraint(columnNames = {"descricao"}) )
-public class Grupos implements Serializable {
+@Table(name = "Elementos",uniqueConstraints= @UniqueConstraint(columnNames = {"descricao", "grupos_id"}) )
+public class Elementos implements Serializable {
 
 	private static final long serialVersionUID = 1L;
 	
@@ -24,18 +24,18 @@ public class Grupos implements Serializable {
 	private String descricao;
 	
 	@ManyToOne
-	@JoinColumn(name = "sites_id")
-	private Sites site;
+	@JoinColumn(name = "grupos_id")
+	private Grupos grupo;
 
-	public Grupos() {
+	public Elementos() {
 		//super();
 	}
 
-	public Grupos(Integer id, String descricao, Sites site) {
+	public Elementos(Integer id, String descricao, Grupos grupo) {
 		//super();
 		this.id = id;
 		this.descricao = descricao;
-		this.site = site;
+		this.grupo = grupo;
 	}
 
 	public Integer getId() {
@@ -54,12 +54,12 @@ public class Grupos implements Serializable {
 		this.descricao = descricao;
 	}
 
-	public Sites getSite() {
-		return site;
+	public Grupos getGrupo() {
+		return grupo;
 	}
 
-	public void setSite(Sites site) {
-		this.site = site;
+	public void setGrupo(Grupos grupo) {
+		this.grupo = grupo;
 	}
 
 
@@ -68,7 +68,7 @@ public class Grupos implements Serializable {
 		final int prime = 31;
 		int result = 1;
 		result = prime * result + ((id == null) ? 0 : id.hashCode());
-		result = prime * result + ((site == null) ? 0 : site.hashCode());
+		result = prime * result + ((grupo == null) ? 0 : grupo.hashCode());
 		return result;
 	}
 
@@ -80,23 +80,23 @@ public class Grupos implements Serializable {
 			return false;
 		if (getClass() != obj.getClass())
 			return false;
-		Grupos other = (Grupos) obj;
+		Elementos other = (Elementos) obj;
 		if (id == null) {
 			if (other.id != null)
 				return false;
 		} else if (!id.equals(other.id))
 			return false;
-		if (site == null) {
-			if (other.site != null)
+		if (grupo == null) {
+			if (other.grupo != null)
 				return false;
-		} else if (!site.equals(other.site))
+		} else if (!grupo.equals(other.grupo))
 			return false;
 		return true;
 	}
 
 	@Override
 	public String toString() {
-		return "Grupos [id=" + id + ", descricao=" + descricao + ", site=" + site + "]";
+		return "Elementos [id=" + id + ", descricao=" + descricao + ", grupo=" + grupo + "]";
 	}
 	
 }

@@ -12,9 +12,9 @@ import javax.persistence.ManyToOne;
 import javax.persistence.Table;
 import javax.persistence.UniqueConstraint;
 
-@Entity
-@Table(name = "Grupos",uniqueConstraints= @UniqueConstraint(columnNames = {"descricao"}) )
-public class Grupos implements Serializable {
+@Entity()
+@Table(name = "Valores",uniqueConstraints= @UniqueConstraint(columnNames = {"descricao", "atributos_id"}) )
+public class Valores implements Serializable {
 
 	private static final long serialVersionUID = 1L;
 	
@@ -24,18 +24,18 @@ public class Grupos implements Serializable {
 	private String descricao;
 	
 	@ManyToOne
-	@JoinColumn(name = "sites_id")
-	private Sites site;
-
-	public Grupos() {
+	@JoinColumn(name = "atributos_id")
+	private Atributos atributo;
+	
+	public Valores() {
 		//super();
 	}
 
-	public Grupos(Integer id, String descricao, Sites site) {
+	public Valores(Integer id, String descricao, Atributos atributo) {
 		//super();
 		this.id = id;
 		this.descricao = descricao;
-		this.site = site;
+		this.atributo = atributo;
 	}
 
 	public Integer getId() {
@@ -54,12 +54,12 @@ public class Grupos implements Serializable {
 		this.descricao = descricao;
 	}
 
-	public Sites getSite() {
-		return site;
+	public Atributos getGrupo() {
+		return atributo;
 	}
 
-	public void setSite(Sites site) {
-		this.site = site;
+	public void setGrupo(Atributos atributo) {
+		this.atributo = atributo;
 	}
 
 
@@ -68,7 +68,7 @@ public class Grupos implements Serializable {
 		final int prime = 31;
 		int result = 1;
 		result = prime * result + ((id == null) ? 0 : id.hashCode());
-		result = prime * result + ((site == null) ? 0 : site.hashCode());
+		result = prime * result + ((atributo == null) ? 0 : atributo.hashCode());
 		return result;
 	}
 
@@ -80,23 +80,23 @@ public class Grupos implements Serializable {
 			return false;
 		if (getClass() != obj.getClass())
 			return false;
-		Grupos other = (Grupos) obj;
+		Valores other = (Valores) obj;
 		if (id == null) {
 			if (other.id != null)
 				return false;
 		} else if (!id.equals(other.id))
 			return false;
-		if (site == null) {
-			if (other.site != null)
+		if (atributo == null) {
+			if (other.atributo != null)
 				return false;
-		} else if (!site.equals(other.site))
+		} else if (!atributo.equals(other.atributo))
 			return false;
 		return true;
 	}
 
 	@Override
 	public String toString() {
-		return "Grupos [id=" + id + ", descricao=" + descricao + ", site=" + site + "]";
+		return "Valores [id=" + id + ", descricao=" + descricao + ", atributo=" + atributo + "]";
 	}
 	
 }

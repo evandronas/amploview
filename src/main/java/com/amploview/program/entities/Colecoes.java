@@ -1,41 +1,43 @@
 package com.amploview.program.entities;
 
 import java.io.Serializable;
+import java.util.ArrayList;
+import java.util.List;
 
 import javax.persistence.Column;
 import javax.persistence.Entity;
 import javax.persistence.GeneratedValue;
 import javax.persistence.GenerationType;
 import javax.persistence.Id;
-import javax.persistence.JoinColumn;
-import javax.persistence.ManyToOne;
+import javax.persistence.OneToMany;
 import javax.persistence.Table;
 import javax.persistence.UniqueConstraint;
 
-@Entity
-@Table(name = "Grupos",uniqueConstraints= @UniqueConstraint(columnNames = {"descricao"}) )
-public class Grupos implements Serializable {
+import com.fasterxml.jackson.annotation.JsonIgnore;
 
-	private static final long serialVersionUID = 1L;
+@Entity
+@Table(name = "Colecoes",uniqueConstraints= @UniqueConstraint(columnNames = {"descricao"}) )
+public class Colecoes implements Serializable {
 	
+	private static final long serialVersionUID = 1L;
+
 	@Id
 	@GeneratedValue(strategy = GenerationType.IDENTITY)
 	private Integer id;
 	private String descricao;
 	
-	@ManyToOne
-	@JoinColumn(name = "sites_id")
-	private Sites site;
-
-	public Grupos() {
+	@JsonIgnore
+	@OneToMany(mappedBy = "id")
+	private List<Colecoes> sites = new ArrayList<>();
+	
+	public Colecoes() {
 		//super();
 	}
 
-	public Grupos(Integer id, String descricao, Sites site) {
+	public Colecoes(Integer id, String descricao) {
 		//super();
 		this.id = id;
 		this.descricao = descricao;
-		this.site = site;
 	}
 
 	public Integer getId() {
@@ -54,12 +56,8 @@ public class Grupos implements Serializable {
 		this.descricao = descricao;
 	}
 
-	public Sites getSite() {
-		return site;
-	}
-
-	public void setSite(Sites site) {
-		this.site = site;
+	public List<Colecoes> getColecoes() {
+		return sites;
 	}
 
 
@@ -68,7 +66,6 @@ public class Grupos implements Serializable {
 		final int prime = 31;
 		int result = 1;
 		result = prime * result + ((id == null) ? 0 : id.hashCode());
-		result = prime * result + ((site == null) ? 0 : site.hashCode());
 		return result;
 	}
 
@@ -80,23 +77,18 @@ public class Grupos implements Serializable {
 			return false;
 		if (getClass() != obj.getClass())
 			return false;
-		Grupos other = (Grupos) obj;
+		Colecoes other = (Colecoes) obj;
 		if (id == null) {
 			if (other.id != null)
 				return false;
 		} else if (!id.equals(other.id))
-			return false;
-		if (site == null) {
-			if (other.site != null)
-				return false;
-		} else if (!site.equals(other.site))
 			return false;
 		return true;
 	}
 
 	@Override
 	public String toString() {
-		return "Grupos [id=" + id + ", descricao=" + descricao + ", site=" + site + "]";
+		return "Colecoes [id=" + id + ", descricao=" + descricao + "]";
 	}
-	
+
 }

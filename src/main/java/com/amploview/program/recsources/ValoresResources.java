@@ -14,34 +14,33 @@ import org.springframework.web.bind.annotation.PathVariable;
 import org.springframework.web.bind.annotation.RequestMapping;
 import org.springframework.web.bind.annotation.RestController;
 
-import com.amploview.program.entities.Grupos;
-import com.amploview.program.entities.Sites;
-import com.amploview.program.services.GruposService;
+import com.amploview.program.entities.Valores;
+import com.amploview.program.services.ValoresService;
 
 @RestController
-@RequestMapping(value="/grupos")
-public class GruposResources {
+@RequestMapping(value="/valores")
+public class ValoresResources {
 	
 	@Autowired
-	private GruposService service;
+	private ValoresService service;
 
 	@GetMapping
-	public ResponseEntity<List<Grupos>> findAll() {
-		List <Grupos> list = service.findAll();
+	public ResponseEntity<List<Valores>> findAll() {
+		List <Valores> list = service.findAll();
 		return ResponseEntity.ok().body(list);
 	}
 	
 	@GetMapping(value = "/{id}")
-	public ResponseEntity<Grupos> findById(@PathVariable Integer id) {
-		Grupos obj = service.findById(id);
+	public ResponseEntity<Valores> findById(@PathVariable Integer id) {
+		Valores obj = service.findById(id);
 		return ResponseEntity.ok().body(obj);
 	}
 
 	@GetMapping(value = "/descricao/{descricao}")
-	public ResponseEntity<Grupos> findByDescricao(@PathVariable String descricao) {
+	public ResponseEntity<Valores> findByDescricao(@PathVariable String descricao) {
 		EntityManagerFactory emf = Persistence.createEntityManagerFactory("h2");
 		EntityManager em = emf.createEntityManager();
-		TypedQuery<Integer> query = em.createQuery("Select id from Grupos Where descricao = '" + descricao + "'" , Integer.class);
+		TypedQuery<Integer> query = em.createQuery("Select id from Atributos Where descricao = '" + descricao + "'" , Integer.class);
 		@SuppressWarnings("unchecked")
 		List<Integer> list=((javax.persistence.Query) query).getResultList();
 		em.close();
