@@ -1,15 +1,16 @@
 package com.amploview.program.entities;
 
 import java.io.Serializable;
-import java.util.ArrayList;
-import java.util.List;
+import java.util.HashSet;
+import java.util.Set;
 
-import javax.persistence.Column;
 import javax.persistence.Entity;
 import javax.persistence.GeneratedValue;
 import javax.persistence.GenerationType;
 import javax.persistence.Id;
-import javax.persistence.OneToMany;
+import javax.persistence.JoinColumn;
+import javax.persistence.JoinTable;
+import javax.persistence.ManyToMany;
 import javax.persistence.Table;
 import javax.persistence.UniqueConstraint;
 
@@ -27,8 +28,21 @@ public class Colecoes implements Serializable {
 	private String descricao;
 	
 	@JsonIgnore
-	@OneToMany(mappedBy = "id")
-	private List<Colecoes> sites = new ArrayList<>();
+	@ManyToMany
+	@JoinTable(name = "AssociacoesGrupos" , 
+	joinColumns = @JoinColumn(name = "Colecao"),
+	inverseJoinColumns = @JoinColumn(name = "Grupo_Associado"))
+	private Set<Grupos> grupos = new HashSet<>();
+
+	@JsonIgnore
+	@ManyToMany
+	@JoinTable(name = "AssociacoesColecoes" , 
+	joinColumns = @JoinColumn(name = "Colecao"),
+	inverseJoinColumns = @JoinColumn(name = "Colecao_associada"))
+	private Set<Colecoes> colecoes = new HashSet<>();
+
+	@ManyToMany(mappedBy = "colecoes")
+	private Set<Colecoes> colecoes_relacionadas = new HashSet<>();
 	
 	public Colecoes() {
 		//super();
@@ -56,10 +70,13 @@ public class Colecoes implements Serializable {
 		this.descricao = descricao;
 	}
 
-	public List<Colecoes> getColecoes() {
-		return sites;
+	public Set<Grupos> getGrupos() {
+		return grupos;
 	}
 
+	public Set<Colecoes> getColecoes() {
+		return colecoes;
+	}
 
 	@Override
 	public int hashCode() {

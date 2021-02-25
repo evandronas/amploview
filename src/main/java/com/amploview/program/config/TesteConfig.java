@@ -7,7 +7,6 @@ import org.springframework.boot.CommandLineRunner;
 import org.springframework.context.annotation.Configuration;
 import org.springframework.context.annotation.Profile;
 
-import com.amploview.program.entities.Associacoes;
 import com.amploview.program.entities.Atributos;
 import com.amploview.program.entities.Colecoes;
 import com.amploview.program.entities.Elementos;
@@ -15,7 +14,6 @@ import com.amploview.program.entities.Grupos;
 import com.amploview.program.entities.Sites;
 import com.amploview.program.entities.Valores;
 import com.amploview.program.entities.enums.TipoAssociacao;
-import com.amploview.program.repositories.AssociacoesRepository;
 import com.amploview.program.repositories.AtributosRepository;
 import com.amploview.program.repositories.ColecoesRepository;
 import com.amploview.program.repositories.ElementosRepository;
@@ -45,8 +43,8 @@ public class TesteConfig implements CommandLineRunner {
 	@Autowired
 	private ColecoesRepository colecaoRepository;
 
-	@Autowired
-	private AssociacoesRepository associacaoRepository;
+	//@Autowired
+	//private AssociacoesRepository associacaoRepository;
 		
 	@Override
 	public void run(String... args) throws Exception {
@@ -105,8 +103,19 @@ public class TesteConfig implements CommandLineRunner {
 		Colecoes regiaodoslagos = new Colecoes(null, "Regiao dos Lagos");
 		Colecoes zonanorte = new Colecoes(null, "Zona Norte");
 		
-		colecaoRepository.saveAll(Arrays.asList(RJ,riodejaneiro,regiaodoslagos,zonanorte));
+		zonanorte.getGrupos().add(estacio);
+		zonanorte.getGrupos().add(riocomprido);
+		regiaodoslagos.getGrupos().add(buzios);
+		RJ.getColecoes().add(riodejaneiro);
+		riodejaneiro.getColecoes().add(zonanorte);
 		
+		colecaoRepository.saveAll(Arrays.asList(RJ,riodejaneiro,regiaodoslagos,zonanorte));
+
+		RJ.getColecoes().add(regiaodoslagos);
+
+		colecaoRepository.saveAll(Arrays.asList(RJ));
+		
+/*		
 		Associacoes associacaoRJriodejaneiro = new Associacoes(null,RJ.getId(),riodejaneiro.getId(),TipoAssociacao.valueOf("Colecoes").getTipo());
 		Associacoes associacaoRJregiaodoslagos = new Associacoes(null,RJ.getId(),regiaodoslagos.getId(),TipoAssociacao.valueOf("Colecoes").getTipo());
 		Associacoes associacaoriodejaneirozonanorte = new Associacoes(null,riodejaneiro.getId(),zonanorte.getId(),TipoAssociacao.valueOf("Colecoes").getTipo());
@@ -115,6 +124,7 @@ public class TesteConfig implements CommandLineRunner {
 		Associacoes associacaoregiaodoslagosbuzios = new Associacoes(null,regiaodoslagos.getId(),buzios.getId(),TipoAssociacao.valueOf("Grupos").getTipo());
 		
 		associacaoRepository.saveAll(Arrays.asList(associacaoRJriodejaneiro,associacaoRJregiaodoslagos,associacaoriodejaneirozonanorte,associacaozonanorteestacio,associacaozonanorteriocomprido,associacaoregiaodoslagosbuzios));		
+*/		
 	}
 
 }
