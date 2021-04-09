@@ -1,0 +1,310 @@
+<!DOCTYPE HTML>
+
+<html>
+	<head>
+		<title> </title>
+		<meta http-equiv="content-type" content="text/html; charset=utf-8" />
+		<meta name="description" content="" />
+		<meta name="keywords" content="" />
+		<!--[if lte IE 8]><script src="css/ie/html5shiv.js"></script><![endif]-->
+		<script src="js/jquery.min.js"></script>
+		<script src="js/jquery.dropotron.min.js"></script>
+		<script src="js/jquery.scrollgress.min.js"></script>
+		<script src="js/jquery.scrolly.min.js"></script>
+		<script src="js/jquery.slidertron.min.js"></script>
+		<script src="js/skel.min.js"></script>
+		<script src="js/skel-layers.min.js"></script>
+		<script src="js/init.js"></script>
+		<noscript>
+			<link rel="stylesheet" href="css/skel.css" />
+			<link rel="stylesheet" href="css/style.css" />
+			<link rel="stylesheet" href="css/style-xlarge.css" />
+		</noscript>
+		<!--[if lte IE 9]><link rel="stylesheet" href="css/ie/v9.css" /><![endif]-->
+		<!--[if lte IE 8]><link rel="stylesheet" href="css/ie/v8.css" /><![endif]-->
+	</head>
+	<body class="landing">
+				<%@ page import="java.sql.*"%>
+				<%@ page import="javax.servlet.*"%>
+				<%@ page import="javax.servlet.http.*"%>
+				<%@ page import="javax.swing.JDialog"%>
+				<%@ page import="javax.swing.JOptionPane"%>
+				<%@ page import="java.util.Iterator"%>
+				<%@ page import="java.util.Map"%>
+				<%@ page import="java.util.Map.Entry"%>
+				<%@ page import="java.util.Set"%>
+				<%
+				boolean debug = false;
+				response.setContentType("text/html;charset=UTF-8");
+				String user = System.getenv("OPENSHIFT_MYSQL_DB_USERNAME");
+				String password = System.getenv("OPENSHIFT_MYSQL_DB_PASSWORD");
+				String url = System.getenv("OPENSHIFT_MYSQL_DB_URL");
+				String host = System.getenv("OPENSHIFT_MYSQL_DB_HOST");
+				String port = System.getenv("OPENSHIFT_MYSQL_DB_PORT");
+				String id_cliente = request.getParameter("id_cliente");
+				String status_flg = request.getParameter("flg_status");
+				//String id_cliente = "1";
+				String id_area = request.getParameter("id_area");;
+				String range_flg = request.getParameter("flg_range");
+				String nome=null, descricao_area=null, endereco=null, cep=null, ponto_de_referencia=null, ddi=null, 
+					ddd=null, telefone=null;
+				%>
+		<!-- Header -->
+			<header id="header" class="alt skel-layers-fixed">
+				<h1><a href="index.html">HTML5 Website <span>by Html5webtemplates.co.uk</span></a></h1>
+				<nav id="nav">
+					<ul>
+						<li><a href="index.html?id_cliente=<%out.print(id_cliente);%>">Principal</a></li>
+						<li>
+							<a href="" class="icon fa-angle-down">Opções</a>
+							<ul>
+								<li>
+						<a href="/app/cadastro_pedido_app.html?id_cliente=<%out.print(id_cliente);%>&id_area=<%out.print(id_area);%>">Efetuar Pedido</a></li>
+								<li>
+									<a href="">Meus pedidos</a>
+									<ul>
+									<li>
+										<a href="">Três últimos</a>
+										<ul>
+											<li><a href="/app/lista_pedido_app.html?id_cliente=<%out.print(id_cliente);%>&id_area=<%out.print(id_area);%>&flg_range=1&flg_status=0">Abertos</a></li>
+											<li><a href="/app/lista_pedido_app.html?id_cliente=<%out.print(id_cliente);%>&id_area=<%out.print(id_area);%>&flg_range=1&flg_status=1">Entregues</a></li>
+											<li><a href="/app/lista_pedido_app.html?id_cliente=<%out.print(id_cliente);%>&id_area=<%out.print(id_area);%>&flg_range=1&flg_status=2">Cancelados</a></li>
+											<li><a href="/app/lista_pedido_app.html?id_cliente=<%out.print(id_cliente);%>&id_area=<%out.print(id_area);%>&flg_range=1&flg_status=9">Qualquer status</a></li>
+										</ul>
+									</li>
+									<li>
+										<a href="">Todos</a>
+										<ul>
+											<li><a href="/app/lista_pedido_app.html?id_cliente=<%out.print(id_cliente);%>&id_area=<%out.print(id_area);%>&flg_range=2&flg_status=0">Abertos</a></li>
+											<li><a href="/app/lista_pedido_app.html?id_cliente=<%out.print(id_cliente);%>&id_area=<%out.print(id_area);%>&flg_range=2&flg_status=1">Entregues</a></li>
+											<li><a href="/app/lista_pedido_app.html?id_cliente=<%out.print(id_cliente);%>&id_area=<%out.print(id_area);%>&flg_range=2&flg_status=2">Cancelados</a></li>
+											<li><a href="/app/lista_pedido_app.html?id_cliente=<%out.print(id_cliente);%>&id_area=<%out.print(id_area);%>&flg_range=2&flg_status=9">Qualquer status</a></li>
+										</ul>
+									</li>
+									</ul>
+								</li>
+							</ul>
+						</li>
+					</ul>
+				</nav>
+			</header>
+
+		<!-- Banner -->
+			<section id="banner">
+				<h1><p>Meus&nbsp;<%if (range_flg.equals("1")) {out.println("três últimos"); out.println("&nbsp;");}%>pedidos&nbsp;<%if (status_flg.equals("0")) out.println("Abertos"); else if (status_flg.equals("1")) out.println("Entregues"); else if (status_flg.equals("2")) out.println("Cancelados");%></p></h1><br>
+				<div class="inner">
+				<%
+				try {
+					String connectionURL = "jdbc:mysql://";
+					String str_insert;
+					connectionURL += host;
+					connectionURL += ":";
+					connectionURL += port;
+					if (debug) {
+						out.println("connecitonURL: ");
+						out.println(connectionURL);
+						out.println("<br>");
+					}
+					Connection connection = null;
+					Class.forName("com.mysql.jdbc.Driver").newInstance();
+					connection = DriverManager.getConnection(connectionURL, user, password);
+					if (debug) {
+						if (!connection.isClosed()) {
+							out.println("Sucesso na conexão ao " + "MySQL server usando TCP/IP...");
+							out.println("<br>");
+						}
+					}
+					Statement st = null;
+					st = connection.createStatement();
+					ResultSet rs;
+					st.execute("use olhaogas");
+					String str_select;
+				%>
+				<script type="text/javascript">
+				function onsubmitform()
+				{
+					var selecionado;
+					if (document.pressed == 'Confirmar entrega') {
+						selecionado = false;
+						for (var i = 0; i < document.getElementsByName("id_pedido").length; i++) {
+							if (document.getElementsByName("id_pedido")[i].value != "") {
+								selecionado = true;
+							}
+						}
+						if (!selecionado) {
+							alert('Registro não selecionado para ser confirmado!');
+							return false;
+						} else {
+						  	document.myform1.action = "/ConfirmarPedido";
+						}
+					} else if (document.pressed == 'Cancelar') {
+						selecionado = false;
+						for (var i = 0; i < document.getElementsByName("id_pedido").length; i++) {
+							if (document.getElementsByName("id_pedido")[i].value != "") {
+								selecionado = true;
+							}
+						}
+						if (!selecionado) {
+							alert('Registro não selecionado para ser cancelado!');
+							return false;
+						} else {
+						  	document.myform1.action = "/CancelarPedido";
+						}
+					}
+					return true;
+				}
+				</script>
+				<form name="myform1" onsubmit="return onsubmitform();">
+					<input type="hidden" name="id_cliente" value="<%out.println(id_cliente);%>"> 
+					<input type="hidden" name="id_area" value="<%out.println(id_area);%>"> 
+					<input type="hidden" name="flg_origem_pedido" value="1">
+					<input type="hidden" name="request_response" value="/app/lista_pedido_app.html">
+				<%
+					String data_pedido, data_status, flg_prioridade_pedido, flg_hora, flg_status, descricao_glp, quantidade, valor, id, id_glp_pedido;
+					out.println("<input type=\"hidden\" name=\"id_cliente\" value=\"");
+					out.println(id_cliente);
+					out.println("\">"); 
+					out.println("<input type=\"hidden\" name=\"id_glp_myform1\" value=\"\">");
+					out.println("<input type=\"hidden\" name=\"id_area_myform1\" value=\"" + id_area + "\">");
+					out.println("<input type=\"hidden\" name=\"flg_prioridade_pedido_myform1\" value=\"\">");
+					out.println("<input type=\"hidden\" name=\"flg_hora_myform1\" value=\"\">");
+					out.println("<input type=\"hidden\" name=\"quantidade_myform1\" value=\"\">");
+					out.println("<br><table border=\"1\">");
+					//out.println(
+					//		"<tr><td><h3>Data Pedido</h3></td><td><h3>Status</h3></td><td><h3>Prioridade</h3></td><td><h3>Horário</h3></td><td><h3>Glp</h3></td><td><h3>Quantidade</h3></td><td><h3>Valor</h3></td><td>&nbsp;</td></tr>");
+						if (status_flg.equals("0") || status_flg.equals("9")) {
+							out.println(
+								"<tr><td><h3>Pedido</h3></td><td>Seleciona</td></tr>");
+						} else {
+							out.println(
+								"<tr><td><h3>Pedido</h3></td></tr>");
+						}
+						str_select = "select DATE_FORMAT(pedido.data_pedido,'%d-%m-%Y'), DATE_FORMAT(pedido.data_status,'%d-%m-%Y'), pedido.flg_prioridade_pedido, pedido.flg_hora , glp.descricao, CAST(pedido.quantidade as char), CAST(pedido.valor_pedido as char), CAST(pedido.id as char), CAST(glp_preco_area.id_glp as char), pedido.flg_status from pedido, glp_preco_area, glp where glp_preco_area.id_glp = glp.id and pedido.id_cliente = ";
+						str_select += id_cliente;
+						str_select += " and glp_preco_area.id_area = ";
+						str_select += id_area;
+						str_select += " and pedido.id_glp_preco_area = glp_preco_area.id";
+						if (!status_flg.equals("9")) {
+							str_select += " and pedido.flg_status = ";
+							str_select += status_flg;
+						}
+						str_select += " order by pedido.ts desc";
+						if (range_flg.equals("1")) {
+							str_select += " limit 3 ";
+						}
+						if (debug) {
+							out.println("str_select: ");
+							out.print(str_select);
+							out.println("<br>");
+						}
+						rs = st.executeQuery(str_select);
+						while (rs.next()) {
+							data_pedido = rs.getString(1);
+							data_status = rs.getString(2);
+							flg_prioridade_pedido = rs.getString(3);
+							flg_hora = rs.getString(4);
+							descricao_glp = rs.getString(5);
+							quantidade = rs.getString(6);
+							valor = rs.getString(7);
+							id = rs.getString(8);
+							id_glp_pedido = rs.getString(9);
+							flg_status = rs.getString(10);
+							out.println("<tr><td>");
+							out.println("<h3>");
+							out.println(data_pedido);
+							out.println("&nbsp;");
+							out.println(quantidade);
+							out.println("&nbsp;");
+							out.println(descricao_glp);
+							out.println("&nbsp;");
+							out.println(valor);
+							out.println("&nbsp;");
+							out.println("para");
+							out.println("&nbsp;");
+							if (flg_prioridade_pedido.equals("0")) {
+								out.println(data_pedido);
+							} else {
+								out.println(data_pedido);
+								out.print("+1");
+							}
+							out.println("&nbsp;");
+							if (flg_status.equals("1")) {
+								out.println("Confirmado em");
+								out.println("&nbsp;");
+								out.println(data_status);
+							} else if (flg_status.equals("2")) {
+								out.println("Cancelado em");
+								out.println("&nbsp;");
+								out.println(data_status);
+							} else {
+								if (flg_hora.equals("0")) {
+									out.println("&nbsp;");
+									out.println("para");
+									out.println("&nbsp;");
+									out.println("qualquer horário");
+								} else {
+									out.println("&nbsp;");
+									out.println("para");
+									out.println("&nbsp;");
+									out.println(flg_hora);
+									out.println("&nbsp;");
+									out.println("horas");
+								}
+							}
+							out.println("</h3>");
+							if (status_flg.equals("0") || status_flg.equals("9")) {
+								out.println("</td><td>");
+								if ((!flg_status.equals("1") && !flg_status.equals("2"))) {
+									out.println("<h3>");
+									out.print("<select name=\"id_pedido\">");
+									out.print("<option value=\"");
+									out.print("\">Não");
+									out.print("</option>");
+									out.print("<option value=\"");
+									out.println(id);
+									out.print("\">Sim");
+									out.print("</option>");
+									out.print("</select>");
+									out.println("</h3>");
+								}
+							}
+							out.println("</td></tr>");
+						}
+						if (status_flg.equals("0") || status_flg.equals("9")) {
+							out.println("</table>");
+							out.println("<br>");
+							out.println("<table border=\"1\" align=\"left\">");
+							out.println("<tr><td>");
+							out.println(
+			"<h1><input type=\"submit\" style=\"color:black;background-color:white\" name=\"operation\" onclick=\"document.pressed=this.value\" value=\"Confirmar entrega\"></h1>");
+							out.println("</td><td>");
+							out.println(
+			"<h1><input type=\"submit\" style=\"color:black;background-color:white\" name=\"operation\" onclick=\"document.pressed=this.value\" value=\"Cancelar\"></h1>");
+							out.println("</td></tr>");
+							out.println("</table>");
+							out.println("<br><br><br>");
+						}
+						out.println("</form>");
+						connection.close();
+					  if (request.getParameter("erro") != null) {
+					     if (!request.getParameter("erro").toString().equals("")) {
+						  out.println("<br>");
+						  out.println("Erro na operação anterior: ");
+						  out.println(request.getParameter("erro"));
+						  out.println("<br>");
+					     }
+					  }
+					} catch (Exception ex) {
+						out.println(
+				"Não foi possivel conectar ao banco de dados ao acessar pedio, cliente, area, glp e ou glp_preco_area.");
+						out.println("<br>");
+					}
+				%>
+				</form>
+				
+				</div>
+				
+			</section>
+
+	</body>
+</html>

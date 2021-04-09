@@ -1,0 +1,74 @@
+
+/mnt/amploviewDATA/imagens/estrelaformosa/R0015669_20191207064703.JPG
+/mnt/amploviewDATA/imagens/estrelaformosa/R0015662_20191207062225.JPG
+/mnt/amploviewDATA/imagens/estrelaformosa/R0015663_20191207062948.JPG
+
+/mnt/amploviewDATA/imagens/tijucaantiga/R0015654_20191130062822.JPG
+/mnt/amploviewDATA/imagens/tijucaantiga/R0015655_20191130063251.JPG
+/mnt/amploviewDATA/imagens/tijucaantiga/R0015651_20191130060905.JPG
+
+/mnt/amploviewDATA/imagens/buzios/IMG-20190628-WA0013.jpg
+/mnt/amploviewDATA/imagens/buzios/IMG-20190628-WA0021.jpg
+/mnt/amploviewDATA/imagens/buzios/IMG-20190628-WA0017.jpg
+/mnt/amploviewDATA/imagens/buzios/IMG-20190628-WA0026.jpg
+
+Site
+  |
+  Grupo
+      |
+      Elemento <<< Ao inserir um elemento, insere atributos Descricao e Imagem 
+             |
+             Atributo
+                    |
+                    Valor
+
+curl localhost:8080/site/Imobiliaria/insert
+curl localhost:8080/site/Agencia%20Viagens/insert
+
+curl localhost:8080/grupo/Estacio/Imobiliaria/insert
+curl localhost:8080/elemento/Rua%20Haddock%20Lobo,%2061/Estacio/Imobiliaria/insert
+curl localhost:8080/valor/primeira%20foto/Descricao/Rua%20Haddock%20Lobo,%2061/Estacio/Imobiliaria/insert
+curl localhost:8080/valor/R0015669_20191207064703.JPG/Imagem/Rua%20Haddock%20Lobo,%2061/Estacio/Imobiliaria/insert?path_imagem=%2Fmnt%2FamploviewDATA%2Fimagens%2Festrelaformosa
+curl localhost:8080/valor/segunda%20foto/Descricao/Rua%20Haddock%20Lobo,%2061/Estacio/Imobiliaria/insert
+curl localhost:8080/valor/R0015662_20191207062225.JPG/Imagem/Rua%20Haddock%20Lobo,%2061/Estacio/Imobiliaria/insert?path_imagem=%2Fmnt%2FamploviewDATA%2Fimagens%2Festrelaformosa
+curl localhost:8080/valor/terceira%20foto/Descricao/Rua%20Haddock%20Lobo,%2061/Estacio/Imobiliaria/insert
+curl localhost:8080/valor/R0015663_20191207062948.JPG/Imagem/Rua%20Haddock%20Lobo,%2061/Estacio/Imobiliaria/insert?path_imagem=%2Fmnt%2FamploviewDATA%2Fimagens%2Festrelaformosa
+
+
+curl localhost:8080/grupo/Rio%20Comprido/Imobiliaria/insert
+curl localhost:8080/elemento/Rua%20do%20Bispo,%20160/Rio%20Comprido/Imobiliaria/insert
+curl localhost:8080/valor/primeira%20foto/Descricao/Rua%20do%20Bispo,%20160/Rio%20Comprido/Imobiliaria/insert
+curl localhost:8080/valor/R0015654_20191130062822.JPG/Imagem/Rua%20do%20Bispo,%20160/Rio%20Comprido/Imobiliaria/insert?path_imagem=%2Fmnt%2FamploviewDATA%2Fimagens%2Ftijucaantiga
+curl localhost:8080/valor/segunda%20foto/Descricao/Rua%20do%20Bispo,%20160/Rio%20Comprido/Imobiliaria/insert
+curl localhost:8080/valor/R0015655_20191130063251.JPG/Imagem/Rua%20do%20Bispo,%20160/Rio%20Comprido/Imobiliaria/insert?path_imagem=%2Fmnt%2FamploviewDATA%2Fimagens%2Ftijucaantiga
+curl localhost:8080/valor/terceira%20foto/Descricao/Rua%20do%20Bispo,%20160/Rio%20Comprido/Imobiliaria/insert
+curl localhost:8080/valor/R0015651_20191130060905.JPG/Imagem/Rua%20do%20Bispo,%20160/Rio%20Comprido/Imobiliaria/insert?path_imagem=%2Fmnt%2FamploviewDATA%2Fimagens%2Ftijucaantiga
+
+
+curl localhost:8080/grupo/Buzios/Agencia%20Viagens/insert
+curl localhost:8080/elemento/Praia%20do%20forno/Buzios/Agencia%20Viagens/insert
+curl localhost:8080/valor/primeira%20foto/Descricao/Praia%20do%20forno/Buzios/Agencia%20Viagens/insert
+curl localhost:8080/valor/IMG-20190628-WA0013.jpg/Imagem/Praia%20do%20forno/Buzios/Agencia%20Viagens/insert?path_imagem=%2Fmnt%2FamploviewDATA%2Fimagens%2Fbuzios
+curl localhost:8080/valor/segunda%20foto/Descricao/Praia%20do%20forno/Buzios/Agencia%20Viagens/insert
+curl localhost:8080/valor/IMG-20190628-WA0021.jpg/Imagem/Praia%20do%20forno/Buzios/Agencia%20Viagens/insert?path_imagem=%2Fmnt%2FamploviewDATA%2Fimagens%2Fbuzios
+curl localhost:8080/elemento/Praia%20Joao%20Fernandes/Buzios/Agencia%20Viagens/insert
+curl localhost:8080/valor/primeira%20foto/Descricao/Praia%20Joao%20Fernandes/Buzios/Agencia%20Viagens/insert
+curl localhost:8080/valor/IMG-20190628-WA0017.jpg/Imagem/Praia%20Joao%20Fernandes/Buzios/Agencia%20Viagens/insert?path_imagem=%2Fmnt%2FamploviewDATA%2Fimagens%2Fbuzios
+curl localhost:8080/valor/segunda%20foto/Descricao/Praia%20Joao%20Fernandes/Buzios/Agencia%20Viagens/insert
+curl localhost:8080/valor/IMG-20190628-WA0026.jpg/Imagem/Praia%20Joao%20Fernandes/Buzios/Agencia%20Viagens/insert?path_imagem=%2Fmnt%2FamploviewDATA%2Fimagens%2Fbuzios
+
+curl localhost:8080/colecao/Compra%20e%20venda/Imobiliaria/insert
+curl localhost:8080/associacao/grupo/Compra%20e%20venda/Rio%20Comprido/Imobiliaria/insert
+
+curl localhost:8080/colecao/Aluguel/Imobiliaria/insert
+curl localhost:8080/colecao/Rio%20de%20Janeiro/Imobiliaria/insert
+curl localhost:8080/colecao/Zona%20Norte/Imobiliaria/insert
+
+curl localhost:8080/associacao/colecao/Rio%20de%20Janeiro/Zona%20Norte/Imobiliaria/insert
+
+curl localhost:8080/associacao/grupo/Zona%20Norte/Estacio/Imobiliaria/insert
+
+
+curl localhost:8080/associacao/grupo/Aluguel/Estacio/Imobiliaria/insert ***
+curl localhost:8080/associacao/grupo/Aluguel/Estacio/Imobiliaria/delete ***
+
