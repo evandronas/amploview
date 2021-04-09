@@ -25,7 +25,7 @@ public class ViewAmplo {
 	
 	ViewAmplo() throws ClassNotFoundException, NamingException, SQLException
 	{
-        dao = new AmploViewDao("/mnt/amploviewDATA/amploview.db");
+        dao = new AmploViewDao("amploview");
         boolean statusAutocommit = dao.connection.getAutoCommit();
         dao.connection.setAutoCommit(false);
 	}

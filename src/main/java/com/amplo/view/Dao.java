@@ -32,8 +32,7 @@ public class Dao {
 				LOGGER.info("Efetuando conexão...");
 				String driver = "org.sqlite.JDBC";
 				Class.forName(driver);
-				//String dbName = "/mnt/amploviewDATA/amploview.db"; 
-				String dbUrl = "jdbc:sqlite:" + dbName;
+				String dbUrl = "jdbc:postgresql:" + dbName;
 				LOGGER.info("dbUrl: " + dbUrl + "...");
 				Properties props = loadProperties();
 				Connection conn = DriverManager.getConnection(dbUrl, props);
