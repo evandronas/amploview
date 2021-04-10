@@ -35,7 +35,7 @@ public class Dao {
 			    String password = dbUri.getUserInfo().split(":")[1];
 			    String dbUrl = "jdbc:postgresql://" + dbUri.getHost() + ':' + dbUri.getPort() + dbUri.getPath();
 
-			    return DriverManager.getConnection(dbUrl, username, password);
+			    conn = DriverManager.getConnection(dbUrl, username, password);
 /*				
 				LOGGER.info("Efetuando conexão...");
 				String driver = "org.sqlite.JDBC";
