@@ -2,8 +2,6 @@ package com.amplo.view;
 
 import java.io.FileInputStream;
 import java.io.IOException;
-import java.net.URI;
-import java.net.URISyntaxException;
 import java.sql.Connection;
 import java.sql.DriverManager;
 import java.sql.SQLException;
@@ -13,6 +11,8 @@ import javax.naming.NamingException;
 
 import org.apache.logging.log4j.LogManager;
 import org.apache.logging.log4j.Logger;
+
+import com.amplo.view.DbException;
 
 /**
  * @author Evandro
@@ -24,32 +24,21 @@ public class Dao {
 
     final static Logger LOGGER = LogManager.getLogger(Dao.class);
 	
-	public static Connection getConnection(String dbName) throws NamingException, SQLException, ClassNotFoundException, URISyntaxException {
+	public static Connection getConnection(String dbName) throws NamingException, SQLException, ClassNotFoundException {
 
 		if (conn == null || conn.isClosed()) {
 
 			try {
-				URI dbUri = new URI(System.getenv("DATABASE_URL"));
-
-			    String username = dbUri.getUserInfo().split(":")[0];
-			    String password = dbUri.getUserInfo().split(":")[1];
-			    String dbUrl = "jdbc:postgresql://" + dbUri.getHost() + ':' + dbUri.getPort() + dbUri.getPath();
-
-			    conn = DriverManager.getConnection(dbUrl, username, password);
-/*				
 				LOGGER.info("Efetuando conexão...");
 				String driver = "org.sqlite.JDBC";
 				Class.forName(driver);
-				
 				String dbUrl = "jdbc:postgresql:" + dbName;
-				
 				LOGGER.info("dbUrl: " + dbUrl + "...");
 				Properties props = loadProperties();
 				Connection conn = DriverManager.getConnection(dbUrl, props);
 				statusAutocommit = conn.getAutoCommit();
 				conn.setAutoCommit(true);
 				LOGGER.info("Conexão Efetuada!");
-*/
 			} catch (SQLException e) {
 				LOGGER.error("Erro ao pegar uma conexão.");
 				e.printStackTrace();
